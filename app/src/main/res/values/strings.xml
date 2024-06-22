@@ -6,4 +6,7 @@
     <string name="title_rank">Rank</string>
     <string name="title_profile">Profile</string>
     <string name="image_classifier_failed">Image Classifier Failed to Initialize</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quiz_text">Pilih Isyarat yang mewakili\nhuruf dibawah ini</string>
 </resources>

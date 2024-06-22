@@ -1,7 +1,5 @@
 package app.bangkit.ishara.ui.main.ui.home
 
-import android.content.Intent
-import app.bangkit.ishara.domain.adapter.TodaySignAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +12,12 @@ import app.bangkit.ishara.R
 import app.bangkit.ishara.data.preferences.UserPreference
 import app.bangkit.ishara.data.preferences.dataStore
 import app.bangkit.ishara.databinding.FragmentHomeBinding
-import app.bangkit.ishara.ui.main.ui.journey.JourneyFragment
+import app.bangkit.ishara.domain.adapter.TodaySignAdapter
 
 
 data class TodaySign(
     val imagePath: Int,
-    val alphabet: String
+    val alphabet: String,
 )
 
 
@@ -35,7 +33,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val homeViewModel =
             ViewModelProvider(this)[HomeViewModel::class.java]
@@ -43,19 +41,27 @@ class HomeFragment : Fragment() {
         pref = UserPreference.getInstance(requireActivity().application.dataStore)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-//
-//        val textView: TextView = binding.textHome
-//        homeViewModel.completedAlphabet.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
 
         binding.btnStartLearning.setOnClickListener {
             findNavController().navigate(R.id.navigateHometoJourney)
         }
 
         todaySignsList = prepareTodaySigns()
-        binding.rvTodaySign.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvTodaySign.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvTodaySign.adapter = TodaySignAdapter(requireContext(), todaySignsList)
+
+        val gifList = listOf(
+            GifItem(R.drawable.gif_makan, "Makan"),
+            GifItem(R.drawable.gif_bangkit, "Bangkit"),
+            GifItem(R.drawable.gif_jalan, "Jalan"),
+            GifItem(R.drawable.gif_tidur, "Tidur"),
+            GifItem(R.drawable.git_saya, "Saya"),
+        )
+        val gifWordAdapter = GifWordAdapter(gifList)
+        binding.rvGifGrid.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvGifGrid.adapter = gifWordAdapter
 
         return root
     }
@@ -65,7 +71,8 @@ class HomeFragment : Fragment() {
 
         for (i in 'A'..'Z') {
             val imageName = "ic_man_$i".toLowerCase()
-            val imageResId = resources.getIdentifier(imageName, "drawable", requireContext().packageName)
+            val imageResId =
+                resources.getIdentifier(imageName, "drawable", requireContext().packageName)
             if (imageResId != 0) {
                 signList.add(TodaySign(imageResId, i.toString()))
             }
@@ -73,6 +80,7 @@ class HomeFragment : Fragment() {
 
         return signList
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

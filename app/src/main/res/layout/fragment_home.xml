@@ -89,7 +89,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Isyarat BISINDO"
+            android:text="Today's Sign"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="20dp" />
@@ -102,6 +102,25 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:orientation="horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Words"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_gif_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"/>
+
     </LinearLayout>
 
 </ScrollView>

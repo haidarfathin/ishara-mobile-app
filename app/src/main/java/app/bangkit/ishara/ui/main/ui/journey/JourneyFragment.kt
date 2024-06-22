@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import app.bangkit.ishara.R
 import app.bangkit.ishara.data.models.Item
 import app.bangkit.ishara.data.preferences.UserPreference
 import app.bangkit.ishara.data.preferences.dataStore
 import app.bangkit.ishara.databinding.FragmentJourneyBinding
 import app.bangkit.ishara.domain.adapter.JourneyAdapter
 import app.bangkit.ishara.ui.game.GameActivity
+import app.bangkit.ishara.ui.game.types.SequenceQuizFragment
 import kotlinx.coroutines.launch
 
 class JourneyFragment : Fragment() {
@@ -45,7 +48,10 @@ class JourneyFragment : Fragment() {
             override fun onItemClicked(data: Item) {
                 when (data) {
                     is Item.StageItem -> {
-                        // Do nothing
+                        if(data.stageData.name == "Abjad 1"){
+                            Log.d(TAG, "ABJAD SATUUUUUUU")
+                            //TODO: add learning page
+                        }
                     }
                     is Item.LevelItem -> {
                         Log.d(TAG, "Level item clicked: ${data.levelData.name}")
@@ -53,6 +59,7 @@ class JourneyFragment : Fragment() {
                         if (data.levelData.isStageUnlocked == true) {
                             val intent = Intent(requireActivity(), GameActivity::class.java)
                             startActivity(intent)
+//                            findNavController().navigate(R.id.action_navigation_journey_to_signQuizFragment)
                         } else {
                             // Do nothing
                         }

@@ -46,7 +46,7 @@ interface ApiService {
     @GET("api/v1/user/journey/levels/{level_id}/questions")
     suspend fun getQuestionsLevel (
         @Header("Authorization") token: String,
-        @Path("level_id") stageId: Int,
+        @Path("level_id") levelId: Int,
     ): QuestionResponse
 
     @GET("api/v1/user/profile")

@@ -19,7 +19,20 @@
         android:id="@+id/navigation_journey"
         android:name="app.bangkit.ishara.ui.main.ui.journey.JourneyFragment"
         android:label="@string/title_journey"
-        tools:layout="@layout/fragment_journey" />
+        tools:layout="@layout/fragment_journey" >
+        <action
+            android:id="@+id/action_navigation_journey_to_sequenceQuizFragment"
+            app:destination="@id/sequenceQuizFragment" />
+        <action
+            android:id="@+id/action_navigation_journey_to_imageQuizFragment"
+            app:destination="@id/imageQuizFragment" />
+        <action
+            android:id="@+id/action_navigation_journey_to_textQuizFragment"
+            app:destination="@id/textQuizFragment" />
+        <action
+            android:id="@+id/action_navigation_journey_to_signQuizFragment"
+            app:destination="@id/signQuizFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_rank"
@@ -32,4 +45,24 @@
         android:name="app.bangkit.ishara.ui.main.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/sequenceQuizFragment"
+        android:name="app.bangkit.ishara.ui.game.types.SequenceQuizFragment"
+        android:label="fragment_sequence_quiz"
+        tools:layout="@layout/fragment_sequence_quiz" />
+    <fragment
+        android:id="@+id/imageQuizFragment"
+        android:name="app.bangkit.ishara.ui.game.types.ImageQuizFragment"
+        android:label="fragment_image_quiz"
+        tools:layout="@layout/fragment_image_quiz" />
+    <fragment
+        android:id="@+id/textQuizFragment"
+        android:name="app.bangkit.ishara.ui.game.types.TextQuizFragment"
+        android:label="fragment_text_quiz"
+        tools:layout="@layout/fragment_text_quiz" />
+    <fragment
+        android:id="@+id/signQuizFragment"
+        android:name="app.bangkit.ishara.ui.game.types.SignQuizFragment"
+        android:label="SignQuizFragment" />
+
 </navigation>

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".ui.game.GameActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -26,108 +23,35 @@
             app:titleTextAppearance="@style/CustomToolbar.Title" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Praktekkan huruf ini"
-        android:textSize="20sp"
-        android:fontFamily="@font/sora_bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/textViewQuizLetter" />
-
-    <TextView
-        android:id="@+id/textViewQuizLetter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="A"
-        android:textColor="@color/darkBlue"
-        android:textSize="60sp"
-        android:fontFamily="@font/sora_bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cardViewViewFinderContainer" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewViewFinderContainer"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6">
-
-        <androidx.camera.view.PreviewView
-            android:id="@+id/viewFinder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.cardview.widget.CardView>
-
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:id="@+id/cardViewResult"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:layout_marginEnd="20dp"-->
-<!--        android:layout_marginBottom="20dp"-->
-<!--        app:cardCornerRadius="20dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/cardViewDebugResult"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/tvQuizText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/white"-->
-<!--            android:fontFamily="@font/sora_bold"-->
-<!--            android:gravity="start"-->
-<!--            android:padding="16dp"-->
-<!--            android:textColor="@color/orange"-->
-<!--            android:textSize="16sp"-->
-<!--            tools:text="RAFI" />-->
-<!--    </androidx.cardview.widget.CardView>-->
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewDebugResult"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:lines="3"
-            android:maxLines="3"
-            android:padding="16dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:text="Hasil Inferensi" />
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/tvInferenceTime"
+    <Button
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:lines="1"
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="60dp"
+        android:text="Selanjutnya"
+        android:fontFamily="@font/sora_bold"
+        android:layout_margin="20dp"
+        android:height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        tools:text="Inference Time" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_skip"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Skip This Question"
+        android:fontFamily="@font/sora_bold"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/orange"
+        android:height="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
