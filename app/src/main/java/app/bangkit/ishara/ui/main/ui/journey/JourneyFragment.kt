@@ -57,7 +57,9 @@ class JourneyFragment : Fragment() {
                         Log.d(TAG, "Level item clicked: ${data.levelData.name}")
                         Log.d(TAG, "Item clicked: $data")
                         if (data.levelData.isStageUnlocked == true) {
-                            val intent = Intent(requireActivity(), GameActivity::class.java)
+                            val intent = Intent(requireActivity(), GameActivity::class.java).apply{
+                                putExtra("LEVEL_ID", data.levelData.id)
+                            }
                             startActivity(intent)
 //                            findNavController().navigate(R.id.action_navigation_journey_to_signQuizFragment)
                         } else {
