@@ -174,7 +174,8 @@ class SignQuizFragment : Fragment() {
 
     private fun checkLetter(detectedLetter: String?) {
         if (detectedLetter.equals(letter, ignoreCase = true)) {
-            showToast("Benar!")
+//            showToast("Benar!")
+            correctAnswer = detectedLetter
         }
     }
 
