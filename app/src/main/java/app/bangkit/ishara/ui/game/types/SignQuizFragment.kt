@@ -179,6 +179,7 @@ class SignQuizFragment : Fragment() {
     }
 
     fun getUserAnswer(): String? {
+        Log.d(TAG, "getUserAnswer: $correctAnswer")
         return correctAnswer ?: "wrong"
     }
 

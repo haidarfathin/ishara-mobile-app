@@ -1,6 +1,7 @@
 package app.bangkit.ishara.ui.game.types
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +63,7 @@ class SequenceQuizFragment : Fragment() {
 
     fun getUserAnswer(): String? {
         val input = binding.etInput.text.toString()
+        Log.d("SequenceQuiz", "getUserAnswer: $input")
         return input
     }
 

@@ -89,7 +89,7 @@ class GameActivity : AppCompatActivity() {
             pref?.getJwtAccessToken()?.collect { token ->
                 Log.d("ProfileFragment", "Access token: $token")
                 if (token.isNotEmpty()) {
-                    gameViewModel.getQuestions(1, token).observe(this@GameActivity) { response ->
+                    gameViewModel.getQuestions(2, token).observe(this@GameActivity) { response ->
                         response?.data?.let { items ->
                             questionItems = items as List<QuestionItem>
                             if (questionItems.isNotEmpty()) {
@@ -111,7 +111,6 @@ class GameActivity : AppCompatActivity() {
         if (userAnswer.equals(correctAnswer, ignoreCase = true)) {
             correctAnswers++
             Toast.makeText(this, "Benar", Toast.LENGTH_SHORT).show()
-            currentStep++
         } else {
             incorrectAnswers++
             Toast.makeText(this, "Salah", Toast.LENGTH_SHORT).show()
@@ -124,6 +123,7 @@ class GameActivity : AppCompatActivity() {
         if (step >= questionItems.size) {
             // Handle case when step is beyond the last question
             Toast.makeText(this, "Quiz Selesai, Skor: $correctAnswers", Toast.LENGTH_SHORT).show()
+            finish()
             return
         }
 
