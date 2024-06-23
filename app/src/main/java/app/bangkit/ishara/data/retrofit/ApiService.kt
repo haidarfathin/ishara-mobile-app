@@ -2,10 +2,12 @@ package app.bangkit.ishara.data.retrofit
 
 import app.bangkit.ishara.data.requests.LoginRequest
 import app.bangkit.ishara.data.requests.RegisterRequest
+import app.bangkit.ishara.data.requests.UpdateLevelRequest
 import app.bangkit.ishara.data.responses.auth.RefreshTokenResponse
 import app.bangkit.ishara.data.responses.journey.JourneyResponse
 import app.bangkit.ishara.data.responses.journey.LevelResponse
 import app.bangkit.ishara.data.responses.journey.QuestionResponse
+import app.bangkit.ishara.data.responses.journey.level_star.UpdateLevelResponse
 import app.bangkit.ishara.data.responses.login.LoginResponse
 import app.bangkit.ishara.data.responses.profile.ProfileResponse
 import app.bangkit.ishara.data.responses.profile.StarsResponse
@@ -58,4 +60,11 @@ interface ApiService {
     suspend fun getUserTotalStar(
         @Header("Authorization") token: String,
     ): StarsResponse
+
+    @POST("/api/v1/user/journey/levels/{id}/level-stars")
+    suspend fun postLevelStars(
+        @Header("Authorization") token: String,
+        @Path("id") levelId: Int,
+        @Body updateLevelRequest: UpdateLevelRequest,
+    ): UpdateLevelResponse
 }

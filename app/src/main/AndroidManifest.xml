@@ -22,6 +22,12 @@
         android:theme="@style/Theme.Ishara.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".ui.game.StageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.game.ScoreActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.ui.screens.MainScreenActivity"
             android:exported="false" />
         <activity
@@ -33,6 +39,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

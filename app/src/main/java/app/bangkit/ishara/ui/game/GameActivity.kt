@@ -1,5 +1,6 @@
 package app.bangkit.ishara.ui.game
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,7 +19,6 @@ import app.bangkit.ishara.ui.game.types.ImageQuizFragment
 import app.bangkit.ishara.ui.game.types.SequenceQuizFragment
 import app.bangkit.ishara.ui.game.types.SignQuizFragment
 import app.bangkit.ishara.ui.game.types.TextQuizFragment
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GameActivity : AppCompatActivity() {
@@ -33,6 +33,7 @@ class GameActivity : AppCompatActivity() {
 
     private var correctAnswers = 0
     private var incorrectAnswers = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +61,15 @@ class GameActivity : AppCompatActivity() {
                 is TextQuizFragment -> {
                     userAnswer = currentFragment.getUserAnswer()
                 }
+
                 is ImageQuizFragment -> {
                     userAnswer = currentFragment.getUserAnswer()
                 }
+
                 is SequenceQuizFragment -> {
                     userAnswer = currentFragment.getUserAnswer()
                 }
+
                 is SignQuizFragment -> {
                     userAnswer = currentFragment.getUserAnswer()
                 }
@@ -75,14 +79,26 @@ class GameActivity : AppCompatActivity() {
             var correctAnswer: String? = null
             if (answer is String) {
                 correctAnswer = answer.toString()
-            } else if (answer is List<*>){
-              extractLetters(answer.toString())
+            } else if (answer is List<*>) {
+                extractLetters(answer.toString())
             }
             Log.d("GameActivity", "correctAnswer: $correctAnswer")
             checkAnswer(userAnswer, correctAnswer)
 
             currentStep++
-            showQuizStep(currentStep)
+
+            val levelId = intent.getIntExtra("LEVEL_ID", -1)
+
+            if (currentStep >= questionItems.size) {
+                val intent = Intent(this, ScoreActivity::class.java).apply {
+                    putExtra("CORRECT_ANSWERS", correctAnswers)
+                    putExtra("LEVEL_ID", levelId)
+                }
+                startActivity(intent)
+                finish()
+            } else {
+                showQuizStep(currentStep)
+            }
         }
 
         val levelId = intent.getIntExtra("LEVEL_ID", -1)
@@ -91,14 +107,15 @@ class GameActivity : AppCompatActivity() {
             pref?.getJwtAccessToken()?.collect { token ->
                 Log.d("ProfileFragment", "Access token: $token")
                 if (token.isNotEmpty()) {
-                    gameViewModel.getQuestions(levelId, token).observe(this@GameActivity) { response ->
-                        response?.data?.let { items ->
-                            questionItems = items as List<QuestionItem>
-                            if (questionItems.isNotEmpty()) {
-                                showQuizStep(currentStep)
+                    gameViewModel.getQuestions(levelId, token)
+                        .observe(this@GameActivity) { response ->
+                            response?.data?.let { items ->
+                                questionItems = items as List<QuestionItem>
+                                if (questionItems.isNotEmpty()) {
+                                    showQuizStep(currentStep)
+                                }
                             }
                         }
-                    }
                 }
             }
         }
@@ -123,8 +140,6 @@ class GameActivity : AppCompatActivity() {
 
     private fun showQuizStep(step: Int) {
         if (step >= questionItems.size) {
-            // Handle case when step is beyond the last question
-            Toast.makeText(this, "Quiz Selesai, Skor: $correctAnswers", Toast.LENGTH_SHORT).show()
             return
         }
 
