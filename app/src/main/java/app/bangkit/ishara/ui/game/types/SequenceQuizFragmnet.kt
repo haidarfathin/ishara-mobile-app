@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import app.bangkit.ishara.data.responses.journey.QuestionItem
 import app.bangkit.ishara.databinding.FragmentSequenceQuizBinding
-import app.bangkit.ishara.domain.adapter.SequenceAdapter
 import com.bumptech.glide.Glide
-
 
 class SequenceQuizFragment : Fragment() {
 
+    private var questionItem: QuestionItem? = null
     private var _binding: FragmentSequenceQuizBinding? = null
     private val binding get() = _binding!!
 
@@ -27,24 +26,60 @@ class SequenceQuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val questionUrls = listOf(
-            "https://storage.googleapis.com/ishara_file_storage/file/2024/06/18/zoZeKa75FfK4ZbI9XHzH.png",
-            "https://storage.googleapis.com/ishara_file_storage/file/2024/06/18/zoZeKa75FfK4ZbI9XHzH.png",
-            "https://storage.googleapis.com/ishara_file_storage/file/2024/06/18/qfCTiSQOKUQO4ZEiP0zP.png",
-            "https://storage.googleapis.com/ishara_file_storage/file/2024/06/18/zoZeKa75FfK4ZbI9XHzH.png"
-        )
+        questionItem = arguments?.getParcelable(ARG_QUESTION_ITEM)
 
-        if (questionUrls.size >= 4) {
-            Glide.with(this).load(questionUrls[0]).into(binding.ivImage1)
-            Glide.with(this).load(questionUrls[1]).into(binding.ivImage2)
-            Glide.with(this).load(questionUrls[2]).into(binding.ivImage3)
-            Glide.with(this).load(questionUrls[3]).into(binding.ivImage4)
+        questionItem?.image?.let { image ->
+            val imageUrl = (image as? Map<*, *>)?.get("question")?.let { (it as List<String>)[0] }
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.ivImage1)
         }
+
+        questionItem?.image?.let { image ->
+            val imageUrl = (image as? Map<*, *>)?.get("question")?.let { (it as List<String>)[1] }
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.ivImage2)
+        }
+
+        questionItem?.image?.let { image ->
+            val imageUrl = (image as? Map<*, *>)?.get("question")?.let { (it as List<String>)[2] }
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.ivImage3)
+        }
+
+        questionItem?.image?.let { image ->
+            val imageUrl = (image as? Map<*, *>)?.get("question")?.let { (it as List<String>)[3] }
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.ivImage4)
+        }
+
+
     }
+
+
+    fun getUserAnswer(): String? {
+        val input = binding.etInput.text.toString()
+        return input
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    companion object {
+        private const val ARG_QUESTION_ITEM = "question_item"
+
+        fun newInstance(questionItem: QuestionItem): SequenceQuizFragment {
+            return SequenceQuizFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_QUESTION_ITEM, questionItem)
+                }
+            }
+        }
+    }
 }

@@ -1,11 +1,12 @@
 package app.bangkit.ishara.ui.game.types
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import app.bangkit.ishara.R
+import app.bangkit.ishara.data.responses.journey.AnswersItem
 import app.bangkit.ishara.data.responses.journey.QuestionItem
 import app.bangkit.ishara.databinding.FragmentTextQuizBinding
 import app.bangkit.ishara.ui.custom_view.CustomImageButton
@@ -19,10 +20,8 @@ class TextQuizFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var customImageButton: CustomImageButton
-    private val options: ArrayList<ImgButton> = arrayListOf(
-        ImgButton(id = 1, imagePath = "https://storage.googleapis.com/ishara_file_storage/file/2024/06/18/zoZeKa75FfK4ZbI9XHzH.png", name = "a", isClicked = false),
-        ImgButton(id = 2, imagePath = "https://storage.googleapis.com/ishara_file_storage/file/2024/06/18/zoZeKa75FfK4ZbI9XHzH.png", name = "b", isClicked = false),
-    )
+    val options: ArrayList<ImgButton> = arrayListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,17 +34,13 @@ class TextQuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO: add answerItem.answer to imgButton.imagePath
-        val answers = questionItem?.answers
-
-//        options.forEach { imgButton ->
-//            if (questionItem.answers.answer == imgButton.name) {
-//                imgButton.isClicked = true
-//                imgButton.imagePath = answersItem.answer
-//            }
-//        }
 
         questionItem = arguments?.getParcelable(ARG_QUESTION_ITEM)
+
+        questionItem?.let { item ->
+            populateOptions(item.answers)
+        }
+
         val letter = extractLetterFromQuestion(questionItem?.question)
         binding.tvLetter.text = letter
 
@@ -53,9 +48,20 @@ class TextQuizFragment : Fragment() {
         customImageButton.options = options
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun populateOptions(answers: List<AnswersItem>) {
+        options.clear()
+        Log.d("TextQuizFragment", "populateOptions: $answers")
+        answers.forEach { answer ->
+            options.add(
+                ImgButton(
+                    id = answer.id!!,
+                    name = answer.answer!!,
+                    imagePath = "sign_${answer.answer.lowercase()}",
+                    isClicked = false
+                )
+            )
+        }
     }
 
     private fun extractLetterFromQuestion(question: String?): String {
@@ -72,7 +78,6 @@ class TextQuizFragment : Fragment() {
 
     companion object {
         private const val ARG_QUESTION_ITEM = "question_item"
-
         fun newInstance(questionItem: QuestionItem): TextQuizFragment {
             return TextQuizFragment().apply {
                 arguments = Bundle().apply {
@@ -80,5 +85,16 @@ class TextQuizFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+    fun getUserAnswer(): String? {
+        val selectedOption = options.find { it.isClicked }
+        return selectedOption?.name
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

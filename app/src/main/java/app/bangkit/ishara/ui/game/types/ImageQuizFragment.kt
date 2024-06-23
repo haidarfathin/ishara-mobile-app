@@ -33,8 +33,6 @@ class ImageQuizFragment : Fragment() {
     ): View? {
         _binding = FragmentImageQuizBinding.inflate(inflater, container, false)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,15 +53,12 @@ class ImageQuizFragment : Fragment() {
         customTextButton = binding.btnOptions
         customTextButton.options = options
 
-        binding.btnTest.setOnClickListener {
-            val selectedOption = options.find { it.isClicked }
-            selectedOption?.let {
-                Toast.makeText(requireContext(), "Kursi Anda nomor ${it.name}.", Toast.LENGTH_SHORT).show()
-            } ?: run {
-                Toast.makeText(requireContext(), "Silakan pilih kursi terlebih dahulu.", Toast.LENGTH_SHORT).show()
-            }
-        }
 
+    }
+
+    fun getUserAnswer(): String? {
+        val selectedOption = options.find { it.isClicked }
+        return selectedOption?.name
     }
 
 

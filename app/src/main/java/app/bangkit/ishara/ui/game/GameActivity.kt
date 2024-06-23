@@ -2,6 +2,7 @@ package app.bangkit.ishara.ui.game
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,9 @@ import app.bangkit.ishara.data.responses.journey.QuestionItem
 import app.bangkit.ishara.databinding.ActivityGameBinding
 import app.bangkit.ishara.ui.game.types.ImageQuizFragment
 import app.bangkit.ishara.ui.game.types.SequenceQuizFragment
+import app.bangkit.ishara.ui.game.types.SignQuizFragment
 import app.bangkit.ishara.ui.game.types.TextQuizFragment
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GameActivity : AppCompatActivity() {
@@ -27,6 +30,9 @@ class GameActivity : AppCompatActivity() {
 
     private var currentStep = 0
     private var questionItems: List<QuestionItem> = emptyList()
+
+    private var correctAnswers = 0
+    private var incorrectAnswers = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +52,35 @@ class GameActivity : AppCompatActivity() {
         }
 
         gameBinding.btnNext.setOnClickListener {
+
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.frameLayout)
+            var userAnswer: String? = null
+
+            when (currentFragment) {
+                is TextQuizFragment -> {
+                    userAnswer = currentFragment.getUserAnswer()
+                }
+                is ImageQuizFragment -> {
+                    userAnswer = currentFragment.getUserAnswer()
+                }
+                is SequenceQuizFragment -> {
+                    userAnswer = currentFragment.getUserAnswer()
+                }
+                is SignQuizFragment -> {
+                    userAnswer = currentFragment.getUserAnswer()
+                }
+            }
+
+            val answer = questionItems[currentStep].correctAnswer
+            var correctAnswer: String? = null
+            if (answer is String) {
+                correctAnswer = answer.toString()
+            } else if (answer is List<*>){
+              extractLetters(answer.toString())
+            }
+            Log.d("GameActivity", "correctAnswer: $correctAnswer")
+            checkAnswer(userAnswer, correctAnswer)
+
             currentStep++
             showQuizStep(currentStep)
         }
@@ -67,9 +102,28 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    fun extractLetters(input: String): String {
+        val cleanedInput = input.replace("[", "").replace("]", "")
+        return cleanedInput.split(",").joinToString("") { it.trim() }
+    }
+
+    private fun checkAnswer(userAnswer: String?, correctAnswer: String?) {
+        if (userAnswer.equals(correctAnswer, ignoreCase = true)) {
+            correctAnswers++
+            Toast.makeText(this, "Benar", Toast.LENGTH_SHORT).show()
+            currentStep++
+        } else {
+            incorrectAnswers++
+            Toast.makeText(this, "Salah", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+
     private fun showQuizStep(step: Int) {
         if (step >= questionItems.size) {
             // Handle case when step is beyond the last question
+            Toast.makeText(this, "Quiz Selesai, Skor: $correctAnswers", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -77,7 +131,8 @@ class GameActivity : AppCompatActivity() {
         val fragment = when (item.type) {
             "text" -> TextQuizFragment.newInstance(item)
             "image" -> ImageQuizFragment.newInstance(item)
-//            "sequence" -> SequenceQuizFragment.newInstance(item)
+            "sequence" -> SequenceQuizFragment.newInstance(item)
+            "practice" -> SignQuizFragment.newInstance(item)
             else -> null
         }
 
