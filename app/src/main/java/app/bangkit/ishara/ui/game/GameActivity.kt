@@ -79,8 +79,9 @@ class GameActivity : AppCompatActivity() {
             var correctAnswer: String? = null
             if (answer is String) {
                 correctAnswer = answer.toString()
-            } else if (answer is List<*>) {
-                extractLetters(answer.toString())
+            } else {
+                correctAnswer = extractLetters(answer.toString())
+                Log.d("GameActivity", "answer: ${extractLetters(answer.toString())} ")
             }
             Log.d("GameActivity", "correctAnswer: $correctAnswer")
             checkAnswer(userAnswer, correctAnswer)
@@ -121,7 +122,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    fun extractLetters(input: String): String {
+    private fun extractLetters(input: String): String {
         val cleanedInput = input.replace("[", "").replace("]", "")
         return cleanedInput.split(",").joinToString("") { it.trim() }
     }
